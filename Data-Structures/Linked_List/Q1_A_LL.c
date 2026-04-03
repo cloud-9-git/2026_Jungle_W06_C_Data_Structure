@@ -90,42 +90,52 @@ int main()
 
 int insertSortedLL(LinkedList *ll, int item)
 {
+	// 1. 새 노드 생성 및 초기화
 	ListNode *newListNode = malloc(sizeof(ListNode));
-	newListNode -> item = item;
-	newListNode -> next = NULL;
-	int i = 0;
-    if(ll -> head == NULL)
-	{
-		ll -> head = newListNode;
-		ll -> size ++;
+	newListNode->item = item;
+	newListNode->next = NULL;
+
+	// 2. 상황 A: 리스트가 완전히 비어있는 경우
+    if(ll->head == NULL) {
+		ll->head = newListNode;
+		ll->size ++;
 		return 0;
 	}
-	else if (item < ll -> head -> item) {
-		ll -> size ++;
-		newListNode -> next = ll -> head;
-		ll -> head = newListNode;
+	
+	// 3. 상황 B: 새 데이터가 맨 앞(head) 노드보다 작은 경우 (맨 앞에 삽입)	
+	if (item < ll->head->item) {
+		ll->size ++;
+		newListNode->next = ll->head;
+		ll->head = newListNode;
 		return 0;
 	}
-	else
-	{
-		ListNode *cur = ll -> head;
-		while (item <= cur -> item) {
-			if (item == cur -> item) {
+
+	// 맨 앞 데이터와 중복되는 경우
+	else if (item == ll->head->item) {
+				free(newListNode);
 				return -1;
-			}
-			else {
-				cur = cur -> next;
-				i = i + 1;
-			}
-		}
-		ll -> size ++;
-		ListNode *tmp = cur -> next;
-		newListNode -> next = tmp;
-		cur -> next = newListNode;
-		i = i + 1;
-		return i;
 	}
-}
+
+	// 4. 상황 C: 중간 또는 맨 뒤에 삽입 (일반적인 경우)
+	ListNode *cur = ll->head;
+	int index = 0;
+
+	while (cur->next != NULL && item > cur->next->item) {
+		cur = cur->next;
+		index++;
+	}
+
+	if (cur->next != NULL && item == cur->next->item) {
+		free(newListNode);
+		return -1;
+	}
+
+	newListNode->next = cur->next;
+	cur->next = newListNode;
+
+	ll->size++;
+	return index + 1;
+	}
 
 ///////////////////////////////////////////////////////////////////////////////////
 
