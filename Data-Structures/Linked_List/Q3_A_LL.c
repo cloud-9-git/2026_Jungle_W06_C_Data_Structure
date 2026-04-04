@@ -86,8 +86,97 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	if (ll == NULL || ll->head == NULL || ll->size < 2) {
+		return -1;
+	}
+
+	LinkedList oddLL;
+	LinkedList evenLL;
+
+	oddLL.head = NULL;
+	oddLL.size = 0;
+	evenLL.head = NULL;
+	evenLL.size = 0;
+	
+	ListNode *curNode;
+	curNode = ll->head;
+	ListNode *oddLLLastNode;
+	ListNode *evenLLLastNode;
+
+	while (curNode != NULL) {
+		if (curNode->item <= 0) {
+			return -1;
+		}
+		if (curNode->item%2 != 0) {
+			if (oddLL.head == NULL) {
+				oddLL.head = curNode;
+				oddLLLastNode = curNode;
+			} else {
+				oddLLLastNode->next = curNode;
+				oddLLLastNode = curNode;
+			}
+		} else {
+			if (evenLL.head == NULL) {
+				evenLL.head = curNode;
+				evenLLLastNode = curNode;
+			} else {
+				evenLLLastNode->next = curNode;
+				evenLLLastNode = curNode;
+			}
+		}
+		curNode = curNode->next;
+	}
+	ll->head = evenLL.head;
+	evenLLLastNode->next = oddLL.head;
 }
+
+/*
+// 제미나이의 코드 리뷰
+void moveOddItemsToBack(LinkedList *ll)
+{
+    // 리스트가 비어있거나 노드가 하나뿐이면 처리할 필요 없음
+    if (ll == NULL || ll->head == NULL || ll->size < 2) {
+        return;
+    }
+
+    ListNode *evenHead = NULL, *evenTail = NULL;
+    ListNode *oddHead = NULL, *oddTail = NULL;
+    ListNode *cur = ll->head;
+
+    while (cur != NULL) {
+        if (cur->item % 2 == 0) { // 짝수일 때
+            if (evenHead == NULL) {
+                evenHead = evenTail = cur;
+            } else {
+                evenTail->next = cur;
+                evenTail = cur;
+            }
+        } else { // 홀수일 때
+            if (oddHead == NULL) {
+                oddHead = oddTail = cur;
+            } else {
+                oddTail->next = cur;
+                oddTail = cur;
+            }
+        }
+        cur = cur->next;
+    }
+
+    // 짝수 노드가 하나라도 있다면
+    if (evenHead != NULL) {
+        ll->head = evenHead;
+        evenTail->next = oddHead; // 짝수 뒤에 홀수 연결 (oddHead가 NULL이어도 상관없음)
+    } else {
+        // 짝수가 하나도 없다면 전체가 홀수이므로 홀수 헤드를 지정
+        ll->head = oddHead;
+    }
+
+    // ★중요: 홀수 리스트의 마지막 노드는 반드시 NULL을 가리켜야 함
+    if (oddTail != NULL) {
+        oddTail->next = NULL;
+    }
+}
+*/
 
 ///////////////////////////////////////////////////////////////////////////////////
 
