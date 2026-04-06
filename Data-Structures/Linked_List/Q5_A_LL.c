@@ -94,7 +94,6 @@ int main()
 			break;
 		}
 	}
-
 	return 0;
 }
 
@@ -102,8 +101,26 @@ int main()
 
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
-	/* add your code here */
+	if (ll == NULL || ll->head == NULL) {
+		return;
+	} 
+
+	ListNode *slow = ll->head;
+	ListNode *fast = ll->head;
+		
+	while (fast->next != NULL && fast->next->next != NULL) {
+		fast = fast->next->next;
+		slow = slow->next;
+	}
+	
+	resultFrontList->head = ll->head;
+	resultBackList->head = slow->next;
+	slow->next = NULL;
+
+	resultFrontList->size = (ll->size + 1) / 2;
+	resultBackList->size = ll->size - resultFrontList->size;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 

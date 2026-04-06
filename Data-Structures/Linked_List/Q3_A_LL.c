@@ -87,7 +87,7 @@ int main()
 void moveOddItemsToBack(LinkedList *ll)
 {
 	if (ll == NULL || ll->head == NULL || ll->size < 2) {
-		return -1;
+		return;
 	}
 
 	LinkedList oddLL;
@@ -105,7 +105,7 @@ void moveOddItemsToBack(LinkedList *ll)
 
 	while (curNode != NULL) {
 		if (curNode->item <= 0) {
-			return -1;
+			return;
 		}
 		if (curNode->item%2 != 0) {
 			if (oddLL.head == NULL) {
@@ -128,6 +128,7 @@ void moveOddItemsToBack(LinkedList *ll)
 	}
 	ll->head = evenLL.head;
 	evenLLLastNode->next = oddLL.head;
+	return;
 }
 
 /*
