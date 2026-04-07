@@ -113,11 +113,42 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int identical(BTNode *tree1, BTNode *tree2)
+int identical(BTNode *tree1, BTNode *tree2) {
+    // 만약 tree1, tree2의 헤드가 모두 없으면 return
+    if (tree1==NULL && tree2==NULL) {
+        return 1;
+    } else if (tree1==NULL || tree2==NULL) {
+        return 0;
+    }
 
-{
-   /* add your code here */
+    // item을 비교한다
+    if (tree1->item != tree2->item) {
+        return 0;
+    } else {
+        if (!identical(tree1->left, tree2->left)) {    // 왼쪽 트리를 비교한다(재귀)
+            return 0;
+        } else if (!identical(tree1->right, tree2->right)) {   // 오른쪽 노드를 비교한다(재귀)
+            return 0;
+        }
+        return 1;    
+    }
 }
+
+/*
+//제미나이가 리뷰해서 정리해 준 코드
+
+int identical(BTNode *tree1, BTNode *tree2) {
+    // 1. 둘 다 비어있으면 똑같은 것 (성공)
+    if (tree1 == NULL && tree2 == NULL) return 1;
+
+    // 2. 한쪽만 비어있거나, 값이 다르면 다른 것 (실패)
+    if (tree1 == NULL || tree2 == NULL) return 0;
+    if (tree1->item != tree2->item) return 0;
+
+    // 3. 현재 노드가 같으니, 왼쪽과 오른쪽 자식들도 모두 '동일'해야만 함
+    return identical(tree1->left, tree2->left) && identical(tree1->right, tree2->right);
+}
+*/
 
 /////////////////////////////////////////////////////////////////////////////////
 

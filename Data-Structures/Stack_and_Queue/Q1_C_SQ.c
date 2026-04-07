@@ -217,8 +217,9 @@ int insertNode(LinkedList *ll, int index, int value){
 
 	ListNode *pre, *cur;
 
-	if (ll == NULL || index < 0 || index > ll->size + 1)
+	if (ll == NULL || index < 0 || index > ll->size + 1) {
 		return -1;
+	}
 
 	// If empty list or inserting first node, need to update head pointer
 	if (ll->head == NULL || index == 0){
