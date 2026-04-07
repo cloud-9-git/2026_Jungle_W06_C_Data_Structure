@@ -103,8 +103,26 @@ int main()
 int sumOfOddNodes(BTNode *node)
 
 {
-    /* add your code here */
+    if (node == NULL) {
+        return 0;
+    }
+
+    int oddLeft = sumOfOddNodes(node->left);
+    int oddRight = sumOfOddNodes(node->right);
+
+    if (node->item % 2 == 1) {
+        return node->item + oddLeft + oddRight;
+    } else {
+        return oddLeft + oddRight;
+    }
 }
+
+/*
+💡 제미나이의 오늘의 팁
+양의 정수 조건이 확실할 때는 비트 연산자를 써서 홀수를 판별하는 방법도 있답니다.
+if (node->item & 1)
+컴퓨터는 이진수로 숫자를 읽기 때문에, 마지막 비트가 1인지 확인하는 이 방식이 아주 미세하게 더 빠를 수 있어요. 물론 지금 쓰신 % 2 == 1이 가독성 면에서는 훨씬 훌륭합니다!
+*/
 
 //////////////////////////////////////////////////////////////////////////////////
 
