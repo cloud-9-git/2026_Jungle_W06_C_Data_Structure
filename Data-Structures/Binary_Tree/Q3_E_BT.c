@@ -101,8 +101,36 @@ int main()
 int countOneChildNodes(BTNode *node)
 
 {
-    /* add your code here */
+    if (node==NULL) {
+        return 0;
+    }
+
+    int countLeft = countOneChildNodes(node->left);
+    int countRight = countOneChildNodes(node->right);
+
+    if ((node->left==NULL && node->right!=NULL) || (node->left!=NULL && node->right==NULL)) {
+        return countLeft + countRight + 1;
+    } else {
+        return countLeft + countRight;
+    }
 }
+
+/*
+제미나이가 다듬어 준 코드
+int countOneChildNodes(BTNode *node)
+{
+    if (node == NULL) return 0;
+
+    int left = countOneChildNodes(node->left);
+    int right = countOneChildNodes(node->right);
+
+    // 자식이 하나인 경우를 판별하는 변수 (참이면 1, 거짓이면 0)
+    int isOneChild = (node->left == NULL && node->right != NULL) || 
+                     (node->left != NULL && node->right == NULL);
+
+    return left + right + isOneChild;
+}
+*/
 
 ///////////////////////////////////////////////////////////////////////////////////
 
